@@ -241,7 +241,8 @@ class App extends Component {
       this.setState({
         bookmarks: this.state.bookmarks.filter((segment) => {
           return segment._id !== id
-        })
+        }),
+        currentSegmentElement: null
       })
     })
   }
@@ -347,13 +348,13 @@ class App extends Component {
     const bookmarkElements = this.state.bookmarks.map((segment, i) => {
       return (
         <li key={i} id={segment.stravaId}>
-          <span onClick={this._getBookmarkedSegment.bind(this)} ><strong id={segment.stravaId}>{segment.name}</strong></span>
+          <span onClick={this._getBookmarkedSegment.bind(this)} ><strong id={segment.stravaId} className='cursor'>{segment.name}</strong></span>
           <p style={{margin: 0}}><i>{segment.city}, {segment.state}</i></p>
           <p style={{margin: 0}}>Times Completed: {segment.timesCompleted}</p>
           <div>
-            <span value="1" id={segment._id} className="glyphicon glyphicon-plus" aria-hidden="true" onClick={this._updateBookmarkPlus.bind(this)}></span>
-            <span value="-1" id={segment._id} className="glyphicon glyphicon-minus" aria-hidden="true" onClick={this._updateBookmarkMinus.bind(this)} style={{paddingLeft:'10px'}}></span>
-            <span id={segment._id} className="glyphicon glyphicon-trash" aria-hidden="true" onClick={this._deleteBookmark.bind(this)} style={{paddingLeft:'10px'}}></span>
+            <span value="1" id={segment._id} className="glyphicon glyphicon-plus cursor" aria-hidden="true" onClick={this._updateBookmarkPlus.bind(this)}></span>
+            <span value="-1" id={segment._id} className="glyphicon glyphicon-minus cursor" aria-hidden="true" onClick={this._updateBookmarkMinus.bind(this)} style={{paddingLeft:'10px'}}></span>
+            <span id={segment._id} className="glyphicon glyphicon-trash cursor" aria-hidden="true" onClick={this._deleteBookmark.bind(this)} style={{paddingLeft:'10px'}}></span>
           </div>
           <hr className="short" />
         </li>
@@ -363,7 +364,7 @@ class App extends Component {
     const segmentElements = this.state.segments.map((segment, i) => {
       return (
         <li key={i} id={segment.id}>
-          <span id={segment.id} onClick={this._getSegment.bind(this)} >{segment.name}</span>
+          <span id={segment.id} className='cursor' onClick={this._getSegment.bind(this)} >{segment.name}</span>
         </li>
       )
     })

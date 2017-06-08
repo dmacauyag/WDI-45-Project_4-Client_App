@@ -192,7 +192,7 @@ class App extends Component {
           ...this.state.bookmarks,
           res.data.segment
         ],
-        isBookmarkSelected: true 
+        isBookmarkSelected: true
       })
     })
   }

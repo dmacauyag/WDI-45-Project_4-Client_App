@@ -10,7 +10,7 @@ import Map from './components/Map.js'
 //////////////////////////////////////////////////////////////
 const mql = window.matchMedia(`(min-width: 800px)`)
 //////////////////////////////////////////////////////////////
-axios.defaults.baseURL = 'https://warm-lowlands-86926.herokuapp.com'
+axios.defaults.baseURL = 'https://warm-lowlands-86926.herokuapp.com' || 'http://localhost:3001'
 //////////////////////////////////////////////////////////////
 class App extends Component {
 

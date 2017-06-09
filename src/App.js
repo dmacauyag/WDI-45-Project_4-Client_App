@@ -9,7 +9,7 @@ import Button from './components/Button'
 import Map from './components/Map.js'
 //////////////////////////////////////////////////////////////
 const mql = window.matchMedia(`(min-width: 800px)`)
-const serverUrl = process.env.SERVER_URL || 'http://localhost:3001'
+const serverUrl = 'https://warm-lowlands-86926.herokuapp.com'
 //////////////////////////////////////////////////////////////
 axios.defaults.baseURL = serverUrl
 //////////////////////////////////////////////////////////////

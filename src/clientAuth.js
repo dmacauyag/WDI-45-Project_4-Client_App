@@ -1,7 +1,7 @@
 import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 
-const serverUrl = process.env.SERVER_URL || 'http://localhost:3001'
+const serverUrl = 'https://warm-lowlands-86926.herokuapp.com'
 
 axios.defaults.baseURL = serverUrl
 

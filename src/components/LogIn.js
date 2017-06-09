@@ -19,8 +19,8 @@ class LogIn extends Component {
       <div className='container'>
         <h2>Log In</h2>
         <form onSubmit={this._handleLogin.bind(this)}>
-          <input type='text' placeholder='Email' ref='email' />
-          <input type='password' placeholder='Password' ref='password' />
+          <input type='text' placeholder='Email' ref='email' required='true' />
+          <input type='password' placeholder='Password' ref='password' required='true' />
           <button type='submit'>Log In</button>
         </form>
       </div>

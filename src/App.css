@@ -23,6 +23,10 @@
   to { transform: rotate(360deg); }
 }
 
+footer.space--sm, section.space--sm {
+    padding-bottom: 1em;
+}
+
 .customBtn {
   font-size: 14px;
   height: 40px;

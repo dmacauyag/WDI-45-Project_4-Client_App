@@ -5,6 +5,7 @@ import clientAuth from './clientAuth'
 import SignUp from './components/SignUp'
 import LogIn from './components/LogIn'
 import Sidebar from './components/Sidebar'
+import Footer from './components/Footer'
 import Button from './components/Button'
 import Map from './components/Map.js'
 //////////////////////////////////////////////////////////////
@@ -460,6 +461,7 @@ class App extends Component {
                       />
                         </div>
                   </section>
+                  <Footer />
                 </div>
           </div>
         </div>

@@ -408,6 +408,7 @@ class App extends Component {
       <div>
         <div>
           <Sidebar
+            user = {this.state.currentUser}
             navButtons={navButtons}
             bookmarks={bookmarkElements}
             segments={segmentElements}

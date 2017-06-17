@@ -3,6 +3,21 @@ import React, { Component } from 'react'
 class Sidebar extends Component {
 
   render() {
+    const bookmarkSection = this.props.user
+    ? (
+      <div className="text-block">
+          <ul className="menu-vertical">
+            <li><h4>Bookmarked Segments</h4></li>
+            {this.props.bookmarks}
+          </ul>
+      </div>
+    )
+    : null
+
+    const lineBreak = this.props.user
+    ? <hr />
+    : null
+
     return (
       <div className="nav-container nav-container--sidebar">
 			<div className="nav-sidebar-column bg--dark">
@@ -19,13 +34,8 @@ class Sidebar extends Component {
 	                </ul>
 	            </div>
 	            <hr />
-	            <div className="text-block">
-	                <ul className="menu-vertical">
-	                    <li><h4>Bookmarked Segments</h4></li>
-                      {this.props.bookmarks}
-	                </ul>
-	            </div>
-	            <hr />
+	            {bookmarkSection}
+              {lineBreak}
               <div className="text-block">
 	                <ul className="menu-vertical">
                       {this.props.currentSegment}

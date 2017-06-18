@@ -29,7 +29,6 @@ class App extends Component {
       activityType: 'riding',
       bookmarks: [],
       updatedBookmark: null,
-      currentSegmentElement: null,
       currentSegment: null,
       currentSegmentPolyline: null,
       map: null,
@@ -243,11 +242,11 @@ class App extends Component {
     const id = evt.target.id
 
     clientAuth.deleteBookmark(id).then(res => {
+      this._isSegmentBookmarked(id)
       this.setState({
         bookmarks: this.state.bookmarks.filter((segment) => {
           return segment._id !== id
         }),
-        currentSegmentElement: null
       })
     })
   }
@@ -290,27 +289,7 @@ class App extends Component {
       console.log(res.data.data)
       const currentSegment = res.data.data
 
-      const bookmarkBtn = this.state.isBookmarkSelected
-        ? null
-        : (
-          <button id={currentSegment.id} name={currentSegment.name} style={{height: '30px', backgroundColor: 'green'}} onClick={this._addBookmark.bind(this)}>Bookmark Segment</button>
-        )
-
-      const currentSegmentElement = (
-        <ul>
-          <li><h4><strong>Selected Segment</strong></h4></li>
-          <li><strong>Name:</strong> {currentSegment.name}</li>
-          <li><strong>Location:</strong> {currentSegment.city}, {currentSegment.state}</li>
-          <li><strong>Activity Type:</strong> {currentSegment.activity_type}</li>
-          <li><strong>Distance:</strong> {(currentSegment.distance / 1609.344).toFixed(2)} miles</li>
-          <li><strong>Average Grade:</strong> {currentSegment.average_grade}%</li>
-          {bookmarkBtn}
-          <hr />
-        </ul>
-      )
-
       this.setState({
-        currentSegmentElement: currentSegmentElement,
         currentSegment: currentSegment,
         currentSegmentPolyline: currentSegment.map.polyline,
         isCurrentSegment: true,
@@ -367,6 +346,27 @@ class App extends Component {
       )
     })
 
+    const bookmarkBtn = (this.state.currentSegment && (this.state.currentUser && !(this.state.isBookmarkSelected)))
+      ? (
+        <button id={this.state.currentSegment.id} name={this.state.currentSegment.name} style={{height: '30px', backgroundColor: 'green'}} onClick={this._addBookmark.bind(this)}>Bookmark Segment</button>
+      )
+      : null
+
+    const currentSegmentElement = this.state.currentSegment
+      ? (
+        <ul>
+          <li><h4><strong>Selected Segment</strong></h4></li>
+          <li><strong>Name:</strong> {this.state.currentSegment.name}</li>
+          <li><strong>Location:</strong> {this.state.currentSegment.city}, {this.state.currentSegment.state}</li>
+          <li><strong>Activity Type:</strong> {this.state.currentSegment.activity_type}</li>
+          <li><strong>Distance:</strong> {(this.state.currentSegment.distance / 1609.344).toFixed(2)} miles</li>
+          <li><strong>Average Grade:</strong> {this.state.currentSegment.average_grade}%</li>
+          {bookmarkBtn}
+          <hr />
+        </ul>
+      )
+      : null
+
     const segmentElements = this.state.segments.map((segment, i) => {
       return (
         <li key={i} id={segment.id} className='cursorTxt'>
@@ -418,7 +418,7 @@ class App extends Component {
             navButtons={navButtons}
             bookmarks={bookmarkElements}
             segments={segmentElements}
-            currentSegment={this.state.currentSegmentElement}
+            currentSegment={currentSegmentElement}
           />
               <div className="main-container">
                   {{

@@ -21,9 +21,11 @@ class App extends Component {
     this.state = {
       mql: mql,
       segments: [],
+      isSegmentsAvailable: false,
       segmentSelected: 'riding',
       isBookmarkSelected: false,
       isSegmentSelected: false,
+      isCurrentSegment: false,
       activityType: 'riding',
       bookmarks: [],
       updatedBookmark: null,
@@ -160,6 +162,7 @@ class App extends Component {
     .then(res => {
       console.log(res.data.data.segments)
       this.setState({
+        isSegmentsAvailable: true,
         segments: [
           ...res.data.data.segments
         ],
@@ -310,6 +313,7 @@ class App extends Component {
         currentSegmentElement: currentSegmentElement,
         currentSegment: currentSegment,
         currentSegmentPolyline: currentSegment.map.polyline,
+        isCurrentSegment: true,
         isSegmentSelected: true,
         mapCenter: {
           lat: currentSegment.start_latitude,
@@ -409,6 +413,8 @@ class App extends Component {
         <div>
           <Sidebar
             user = {this.state.currentUser}
+            isSegmentsAvailable = {this.state.isSegmentsAvailable}
+            isCurrentSegment = {this.state.isCurrentSegment}
             navButtons={navButtons}
             bookmarks={bookmarkElements}
             segments={segmentElements}

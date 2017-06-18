@@ -14,8 +14,29 @@ class Sidebar extends Component {
     )
     : null
 
-    const lineBreak = this.props.user
+    const lineBreakBookmarkSection = this.props.user
     ? <hr />
+    : null
+
+    const currentSegmentSection = this.props.isSegmentsAvailable
+    ? (
+      <div className="text-block">
+          <ul className="menu-vertical">
+              <li><h4>Current Map Segments</h4></li>
+              {this.props.segments}
+          </ul>
+      </div>
+    )
+    : null
+
+    const lineBreakSegmentSection = this.props.isSegmentsAvailable
+    ? <hr />
+    : null
+
+    const selectedSegmentSection = this.props.isCurrentSegment
+    ? <div className="text-block">
+        {this.props.currentSegment}
+    </div>
     : null
 
     return (
@@ -35,15 +56,10 @@ class Sidebar extends Component {
 	            </div>
 	            <hr />
 	            {bookmarkSection}
-              {lineBreak}
-              <div className="text-block">
-	                <ul className="menu-vertical">
-                      {this.props.currentSegment}
-	                    <li><h4>Current Map Segments</h4></li>
-                      {this.props.segments}
-	                </ul>
-	            </div>
-	            <hr />
+              {lineBreakBookmarkSection}
+              {selectedSegmentSection}
+              {currentSegmentSection}
+	            {lineBreakSegmentSection}
 	            <div>
 
 	            </div>

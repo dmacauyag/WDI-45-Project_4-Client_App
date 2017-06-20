@@ -55,3 +55,17 @@ footer.space--sm, section.space--sm {
   -ms-transform: scale(1.5);
   transform: scale(1.5);
 }
+
+.ReactModal__Overlay {
+    z-index: 1000;
+}
+
+.login-container {
+  text-align: center;
+  width: 35em;
+}
+
+.signup-container {
+  text-align: center;
+  width: 35em;
+}

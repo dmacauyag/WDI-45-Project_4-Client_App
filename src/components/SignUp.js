@@ -14,7 +14,7 @@ class SignUp extends Component {
 
   render() {
     return (
-      <div className='container'>
+      <div className='container signup-container'>
         <h2>Sign Up</h2>
         <form onSubmit={this._handleSignup.bind(this)}>
           <input type='text' placeholder='Name' ref='name' required='true' />

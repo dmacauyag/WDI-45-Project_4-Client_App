@@ -16,7 +16,7 @@ class LogIn extends Component {
 
   render() {
     return (
-      <div className='container'>
+      <div className='container login-container'>
         <h2>Log In</h2>
         <form onSubmit={this._handleLogin.bind(this)}>
           <input type='text' placeholder='Email' ref='email' required='true' />

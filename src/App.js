@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Modal from 'react-modal'
 import axios from 'axios'
 import './App.css'
 import clientAuth from './clientAuth'
@@ -18,6 +19,7 @@ class App extends Component {
 
   constructor() {
     super()
+
     this.state = {
       mql: mql,
       segments: [],
@@ -39,8 +41,12 @@ class App extends Component {
       bounds: null,
       currentUser: null,
       loggedIn: false,
-      view: 'home'
+      view: 'home',
+      isModalOpen: false,
+      currentModal: null
     }
+
+    this.closeModal = this.closeModal.bind(this);
   }
 
   componentDidMount() {
@@ -67,13 +73,24 @@ class App extends Component {
     })
   }
 //////////////////////////////////////////////////////////////
+  openModal(evt) {
+    this.setState({
+      isModalOpen: true,
+      currentModal: evt.target.name
+    })
+  }
+
+  closeModal() {
+    this.setState({isModalOpen: false})
+  }
+//////////////////////////////////////////////////////////////
   _signUp(newUser) {
     clientAuth.signUp(newUser).then((data) => {
       const currentUser = clientAuth.getCurrentUser()
       this.setState({
         currentUser: currentUser,
         loggedIn: !!currentUser,
-        view: 'home'
+        isModalOpen: false
       })
     })
   }
@@ -84,7 +101,7 @@ class App extends Component {
       this.setState({
         currentUser: user,
         loggedIn: true,
-        view: 'home'
+        isModalOpen: false
       }, () => {
         clientAuth.getBookmarks().then(res => {
           this.setState({
@@ -395,22 +412,50 @@ class App extends Component {
             label='Sign Up'
             name='signup'
             className='btn btn-primary customBtn'
-            onClick={this._setView.bind(this)}
+            onClick={this.openModal.bind(this)}
           />
           <span className='	glyphicon glyphicon-option-vertical'></span>
           <Button
             label='Log In'
             name='login'
             className='btn-link'
-            onClick={this._setView.bind(this)}
+            onClick={this.openModal.bind(this)}
           />
         </div>
       )
     }
 
+    var modalElement = null
+
+    if (this.state.currentModal === "signup") {
+      modalElement = <SignUp onSignup={this._signUp.bind(this)} />
+    } else if (this.state.currentModal === "login") {
+      modalElement = <LogIn onLogin={this._logIn.bind(this)} />
+    }
+
+    const customModalStyles = {
+      content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)'
+      }
+    }
+//////////////////////////////////////////////////////////////
     return (
       <div>
         <div>
+          <Modal
+            isOpen={this.state.isModalOpen}
+            onRequestClose={this.closeModal}
+            contentLabel={this.state.currentModal}
+            style={customModalStyles}
+          >
+            {modalElement}
+          </Modal>
+
           <Sidebar
             user = {this.state.currentUser}
             isSegmentsAvailable = {this.state.isSegmentsAvailable}
@@ -420,58 +465,54 @@ class App extends Component {
             segments={segmentElements}
             currentSegment={currentSegmentElement}
           />
-              <div className="main-container">
-                  {{
-                    home:
-                      <section className="imagebg image--light cover cover-blocks bg--secondary" style={{padding: 0}}>
-                        <div className="container">
-                          <div className="row">
-                            <div className="col-sm-6 col-md-5 col-md-offset-1">
-                              <div>
-                                <h1>{bannerHeader}</h1>
-                                <p className="lead">
-                                  {bannerText}
-                                </p>
-                                <hr className="short" />
-                                <div className="form-group">
-                                  <label>Activity Type:</label>
-                                  <select className="form-control" onChange={this._handleSegmentSelect.bind(this)}>
-                                    <option value="riding">Cycling</option>
-                                    <option value="running">Running</option>
-                                  </select>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </section>,
-                    login: <LogIn onLogin={this._logIn.bind(this)} />,
-                    signup: <SignUp onSignup={this._signUp.bind(this)} />
-                  }[this.state.view]}
 
-                  <section id="elements" style={{padding: 0}}>
-                    <div className="container" style={{padding: 0, height: `500px`}}>
-                      <Map
-                        zoom={14}
-                        center={this.state.mapCenter}
-                        segments={this.state.segments}
-                        activityType={this.state.activityType}
-                        polyline={this.state.currentSegmentPolyline}
-                        isSegmentSelected={this.state.isSegmentSelected}
-                        currentSegment={this.state.currentSegment}
-                        ref={this._mapLoaded.bind(this)}
-                        onMarkerClick={this._markerClicked.bind(this)}
-                        onDragEnd={this._mapMoved.bind(this)}
-                        onZoomChanged={this._zoomChanged.bind(this)}
-                        containerElement={<div style={{ height: `100%` }} />}
-                        mapElement={<div style={{ height: `100%` }} />}
-                      />
+          <div className="main-container">
+            <section className="imagebg image--light cover cover-blocks bg--secondary" style={{padding: 0}}>
+              <div className="container">
+                <div className="row">
+                    <div className="col-sm-6 col-md-5 col-md-offset-1">
+                      <div>
+                        <h1>{bannerHeader}</h1>
+                        <p className="lead">
+                          {bannerText}
+                        </p>
+                        <hr className="short" />
+                        <div className="form-group">
+                          <label>Activity Type:</label>
+                            <select className="form-control" onChange={this._handleSegmentSelect.bind(this)}>
+                              <option value="riding">Cycling</option>
+                              <option value="running">Running</option>
+                            </select>
                         </div>
-                  </section>
-                  <Footer />
+                      </div>
+                    </div>
                 </div>
+              </div>
+            </section>
+
+            <section id="elements" style={{padding: 0}}>
+              <div className="container" style={{padding: 0, height: `500px`}}>
+                <Map
+                  zoom={14}
+                  center={this.state.mapCenter}
+                  segments={this.state.segments}
+                  activityType={this.state.activityType}
+                  polyline={this.state.currentSegmentPolyline}
+                  isSegmentSelected={this.state.isSegmentSelected}
+                  currentSegment={this.state.currentSegment}
+                  ref={this._mapLoaded.bind(this)}
+                  onMarkerClick={this._markerClicked.bind(this)}
+                  onDragEnd={this._mapMoved.bind(this)}
+                  onZoomChanged={this._zoomChanged.bind(this)}
+                  containerElement={<div style={{ height: `100%` }} />}
+                  mapElement={<div style={{ height: `100%` }} />}
+                />
+              </div>
+            </section>
+            <Footer />
           </div>
         </div>
+      </div>
     )
   }
 }

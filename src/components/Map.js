@@ -1,12 +1,11 @@
+/*global google*/
 import React, { Component } from 'react'
 import { withGoogleMap, GoogleMap, Marker, Polyline } from 'react-google-maps'
-import axios from 'axios'
+import SearchBox from 'react-google-maps/lib/places/SearchBox'
 import cyclingMarker from '../assets/images/cyclingMarker.png'
 import runningMarker from '../assets/images/runningMarker.png'
 import startMarker from '../assets/images/startMarker.png'
 import endMarker from '../assets/images/endMarker.png'
-
-axios.defaults.baseURL = 'http://localhost:3001'
 
 // function to decode google maps api polyline taken from:
 // https://gist.github.com/ismaels/6636986
@@ -99,6 +98,21 @@ class Map extends Component {
       strokeWeight: '5'
     }
 
+    const INPUT_STYLE = {
+      boxSizing: `border-box`,
+      MozBoxSizing: `border-box`,
+      border: `1px solid transparent`,
+      width: `240px`,
+      height: `32px`,
+      marginTop: `27px`,
+      padding: `0 12px`,
+      borderRadius: `1px`,
+      boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
+      fontSize: `14px`,
+      outline: `none`,
+      textOverflow: `ellipses`,
+    }
+
     return (
       <GoogleMap
         ref={this.props.ref}
@@ -106,6 +120,11 @@ class Map extends Component {
         onZoomChanged={this.props.onZoomChanged}
         defaultZoom={this.props.zoom}
         center={this.props.center} >
+        <SearchBox
+          inputPlaceholder="Search For Location"
+          inputStyle={INPUT_STYLE}
+          controlPosition={google.maps.ControlPosition.TOP_CENTER}
+        />
         {markers}
         <Marker icon={startMarker} position={currentSegmentMarkerStart}/>
         <Marker icon={endMarker} position={currentSegmentMarkerEnd}/>

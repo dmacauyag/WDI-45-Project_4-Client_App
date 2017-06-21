@@ -499,7 +499,7 @@ class App extends Component {
             </section>
 
             <section id="elements" style={{padding: 0}}>
-              <div className="container" style={{padding: 0, height: `500px`}}>
+              <div className="container" style={{padding: `10px`, height: `500px`, width: `100%`}}>
                 <Map
                   zoom={14}
                   center={this.state.mapCenter}

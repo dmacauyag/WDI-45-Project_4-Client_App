@@ -194,6 +194,14 @@ class App extends Component {
     console.log('marker was clicked:', id)
     this._getMarkerSegment(id)
   }
+
+  _inputChange(newCenter, boundaryStr) {
+    console.log("new search input at:", newCenter)
+
+    this.setState({
+      mapCenter: newCenter
+    })
+  }
 //////////////////////////////////////////////////////////////
   _addBookmark(evt) {
     evt.preventDefault()
@@ -502,6 +510,7 @@ class App extends Component {
                   currentSegment={this.state.currentSegment}
                   ref={this._mapLoaded.bind(this)}
                   onMarkerClick={this._markerClicked.bind(this)}
+                  onPlacesChanged={this._inputChange.bind(this)}
                   onDragEnd={this._mapMoved.bind(this)}
                   onZoomChanged={this._zoomChanged.bind(this)}
                   containerElement={<div style={{ height: `100%` }} />}

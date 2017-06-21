@@ -50,6 +50,15 @@ class Map extends Component {
     this.props.onMarkerClick(id)
   }
 
+  _handlePlacesChanged() {
+    var newCenter = {
+      lat: this.refs.searchbox.getPlaces()[0].geometry.location.lat(),
+      lng: this.refs.searchbox.getPlaces()[0].geometry.location.lng()
+    }
+
+    this.props.onPlacesChanged(newCenter)
+  }
+
   render() {
     var markerIcon = (this.props.activityType === 'riding')
       ? cyclingMarker
@@ -121,9 +130,11 @@ class Map extends Component {
         defaultZoom={this.props.zoom}
         center={this.props.center} >
         <SearchBox
+          ref="searchbox"
           inputPlaceholder="Search For Location"
           inputStyle={INPUT_STYLE}
           controlPosition={google.maps.ControlPosition.TOP_CENTER}
+          onPlacesChanged={this._handlePlacesChanged.bind(this)}
         />
         {markers}
         <Marker icon={startMarker} position={currentSegmentMarkerStart}/>

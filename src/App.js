@@ -385,7 +385,9 @@ class App extends Component {
           <li><strong>Location:</strong> {this.state.currentSegment.city}, {this.state.currentSegment.state}</li>
           <li><strong>Activity Type:</strong> {this.state.currentSegment.activity_type}</li>
           <li><strong>Distance:</strong> {(this.state.currentSegment.distance / 1609.344).toFixed(2)} miles</li>
+          <li><strong>Climb Category:</strong> {this.state.currentSegment.climb_category}</li>
           <li><strong>Average Grade:</strong> {this.state.currentSegment.average_grade}%</li>
+          <li><strong>Total Elevation Gain:</strong> {(this.state.currentSegment.total_elevation_gain / 0.3048).toFixed(2)} feet</li>
           {bookmarkBtn}
           <hr />
         </ul>
@@ -501,6 +503,7 @@ class App extends Component {
                             <option value="2-climb">2</option>
                             <option value="3-climb">3</option>
                             <option value="4-climb">4</option>
+                            <option value="5-climb">5</option>
                           </select>
                           <br />
 

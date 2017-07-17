@@ -487,10 +487,29 @@ class App extends Component {
                         <hr className="short" />
                         <div className="form-group">
                           <label>Activity Type:</label>
-                            <select className="form-control" onChange={this._handleSegmentSelect.bind(this)}>
-                              <option value="riding">Cycling</option>
-                              <option value="running">Running</option>
-                            </select>
+                          <select className="form-control" onChange={this._handleSegmentSelect.bind(this)}>
+                            <option value="riding">Cycling</option>
+                            <option value="running">Running</option>
+                          </select>
+                          <br />
+
+                          <label>Climb Category:</label>
+                          <select className="form-control">
+                            <option value="all-climb">All</option>
+                            <option value="0-climb">0</option>
+                            <option value="1-climb">1</option>
+                            <option value="2-climb">2</option>
+                            <option value="3-climb">3</option>
+                            <option value="4-climb">4</option>
+                          </select>
+                          <br />
+
+                          <form>
+                            <label>Min Distance (Miles):</label>
+                            <input type="text" name="min-dist" placeholder="Min"/>
+                            <label>Max Distance (Miles):</label>
+                            <input type="text" name="max-dist" placeholder="Max"/>
+                          </form>
                         </div>
                       </div>
                     </div>

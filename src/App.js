@@ -495,15 +495,23 @@ class App extends Component {
                           </select>
                           <br />
 
-                          <label>Climb Category:</label>
+                          <label>Min Climb Category:</label>
                           <select className="form-control">
-                            <option value="all-climb">All</option>
-                            <option value="0-climb">0</option>
-                            <option value="1-climb">1</option>
-                            <option value="2-climb">2</option>
-                            <option value="3-climb">3</option>
-                            <option value="4-climb">4</option>
-                            <option value="5-climb">5</option>
+                            <option value="0-min-climb">0</option>
+                            <option value="1-min-climb">1</option>
+                            <option value="2-min-climb">2</option>
+                            <option value="3-min-climb">3</option>
+                            <option value="4-min-climb">4</option>
+                            <option value="5-min-climb">5</option>
+                          </select>
+                          <label>Max Climb Category:</label>
+                          <select className="form-control">
+                            <option value="0-max-climb">0</option>
+                            <option value="1-max-climb">1</option>
+                            <option value="2-max-climb">2</option>
+                            <option value="3-max-climb">3</option>
+                            <option value="4-max-climb">4</option>
+                            <option value="5-max-climb" selected>5</option>
                           </select>
                           <br />
 

@@ -11,8 +11,11 @@ import Button from './components/Button'
 import Map from './components/Map.js'
 //////////////////////////////////////////////////////////////
 const mql = window.matchMedia(`(min-width: 800px)`)
-// const serverUrl = 'https://warm-lowlands-86926.herokuapp.com'
-const serverUrl = 'http://localhost:3001'
+// use the serverUrl below for the deployed version
+const serverUrl = 'https://warm-lowlands-86926.herokuapp.com'
+
+// use the serverUrl below to localhost:3001 for local testing
+// const serverUrl = 'http://localhost:3001'
 //////////////////////////////////////////////////////////////
 axios.defaults.baseURL = serverUrl
 //////////////////////////////////////////////////////////////
@@ -32,6 +35,8 @@ class App extends Component {
       activityType: 'riding',
       minClimbCat: 0,
       maxClimbCat: 5,
+      minDist: '',
+      maxDist: '',
       bookmarks: [],
       updatedBookmark: null,
       currentSegment: null,
@@ -152,6 +157,20 @@ class App extends Component {
       maxClimbCat: parseInt(evt.target.value)
     })
   }
+
+  _handleMinDistSelect(evt) {
+    console.log('min distance selected:', evt.target.value);
+    this.setState({
+      minDist: Number(evt.target.value)
+    })
+  }
+
+  _handleMaxDistSelect(evt) {
+    console.log('max distance selected:', evt.target.value);
+    this.setState({
+      maxDist: Number(evt.target.value)
+    })
+  }
 //////////////////////////////////////////////////////////////
   _mapLoaded(map) {
     console.log('_mapLoaded')
@@ -194,10 +213,28 @@ class App extends Component {
     })
     .then(res => {
       console.log(res.data.data.segments)
+      var filteredSegments = res.data.data.segments
+
+      if (this.state.minDist !== "" && this.state.maxDist === "") {
+        filteredSegments = filteredSegments.filter((segment) => {
+          return Number((segment.distance / 1609.344).toFixed(2)) >= this.state.minDist
+        })
+      } else if (this.state.minDist === "" && this.state.maxDist !== "") {
+        filteredSegments = filteredSegments.filter((segment) => {
+          return Number((segment.distance / 1609.344).toFixed(2)) <= this.state.maxDist
+        })
+      } else if (this.state.minDist !== "" && this.state.maxDist !== "") {
+        filteredSegments = filteredSegments.filter((segment) => {
+          return Number((segment.distance / 1609.344).toFixed(2)) >= this.state.minDist && Number((segment.distance / 1609.344).toFixed(2)) <= this.state.maxDist
+        })
+      }
+
+      console.log(filteredSegments)
+
       this.setState({
         isSegmentsAvailable: true,
         segments: [
-          ...res.data.data.segments
+          ...filteredSegments
         ],
         bounds: bounds,
         segmentSelected: this.state.segmentSelected,
@@ -534,9 +571,9 @@ class App extends Component {
 
                           <form>
                             <label>Min Distance (Miles):</label>
-                            <input type="number" name="min-dist" placeholder="Min"/>
+                            <input type="number" name="min-dist" placeholder="Min" onChange={this._handleMinDistSelect.bind(this)}/>
                             <label>Max Distance (Miles):</label>
-                            <input type="number" name="max-dist" placeholder="Max"/>
+                            <input type="number" name="max-dist" placeholder="Max" onChange={this._handleMaxDistSelect.bind(this)}/>
                           </form>
                         </div>
                       </div>

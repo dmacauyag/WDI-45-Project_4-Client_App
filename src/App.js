@@ -11,7 +11,8 @@ import Button from './components/Button'
 import Map from './components/Map.js'
 //////////////////////////////////////////////////////////////
 const mql = window.matchMedia(`(min-width: 800px)`)
-const serverUrl = 'https://warm-lowlands-86926.herokuapp.com'
+// const serverUrl = 'https://warm-lowlands-86926.herokuapp.com'
+const serverUrl = 'http://localhost:3001'
 //////////////////////////////////////////////////////////////
 axios.defaults.baseURL = serverUrl
 //////////////////////////////////////////////////////////////
@@ -29,6 +30,8 @@ class App extends Component {
       isSegmentSelected: false,
       isCurrentSegment: false,
       activityType: 'riding',
+      minClimbCat: 0,
+      maxClimbCat: 5,
       bookmarks: [],
       updatedBookmark: null,
       currentSegment: null,
@@ -137,6 +140,18 @@ class App extends Component {
       segmentSelected: evt.target.value
     })
   }
+
+  _handleMinClimbCatSelect(evt) {
+    this.setState({
+      minClimbCat: parseInt(evt.target.value)
+    })
+  }
+
+  _handleMaxClimbCatSelect(evt) {
+    this.setState({
+      maxClimbCat: parseInt(evt.target.value)
+    })
+  }
 //////////////////////////////////////////////////////////////
   _mapLoaded(map) {
     console.log('_mapLoaded')
@@ -172,7 +187,9 @@ class App extends Component {
       method: 'post',
       data: {
         boundary: bounds,
-        activityType: this.state.segmentSelected
+        activityType: this.state.segmentSelected,
+        minClimbCat: this.state.minClimbCat,
+        maxClimbCat: this.state.maxClimbCat
       }
     })
     .then(res => {
@@ -496,30 +513,30 @@ class App extends Component {
                           <br />
 
                           <label>Min Climb Category:</label>
-                          <select className="form-control">
-                            <option value="0-min-climb">0</option>
-                            <option value="1-min-climb">1</option>
-                            <option value="2-min-climb">2</option>
-                            <option value="3-min-climb">3</option>
-                            <option value="4-min-climb">4</option>
-                            <option value="5-min-climb">5</option>
+                          <select className="form-control" onChange={this._handleMinClimbCatSelect.bind(this)}>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
                           </select>
                           <label>Max Climb Category:</label>
-                          <select className="form-control">
-                            <option value="0-max-climb">0</option>
-                            <option value="1-max-climb">1</option>
-                            <option value="2-max-climb">2</option>
-                            <option value="3-max-climb">3</option>
-                            <option value="4-max-climb">4</option>
-                            <option value="5-max-climb" selected>5</option>
+                          <select className="form-control" onChange={this._handleMaxClimbCatSelect.bind(this)}>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5" selected>5</option>
                           </select>
                           <br />
 
                           <form>
                             <label>Min Distance (Miles):</label>
-                            <input type="text" name="min-dist" placeholder="Min"/>
+                            <input type="number" name="min-dist" placeholder="Min"/>
                             <label>Max Distance (Miles):</label>
-                            <input type="text" name="max-dist" placeholder="Max"/>
+                            <input type="number" name="max-dist" placeholder="Max"/>
                           </form>
                         </div>
                       </div>

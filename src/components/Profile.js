@@ -3,6 +3,14 @@ import Button from './Button'
 import defaultProfileImg from '../assets/images/default-profile.png'
 
 class Profile extends Component {
+  _handleDeleteProfile(evt) {
+    evt.preventDefault()
+    var confirmDelete = window.confirm("Are you sure you want to delete your account?")
+    if (confirmDelete) {
+      this.props.onDeleteUser()
+    }
+  }
+
   render() {
     return (
       <div className='container profile-container'>
@@ -20,6 +28,7 @@ class Profile extends Component {
         <Button
           label='Delete Profile'
           className='btn btn-danger'
+          onClick={this._handleDeleteProfile.bind(this)}
         />
       </div>
     )

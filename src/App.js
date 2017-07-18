@@ -121,6 +121,21 @@ class App extends Component {
     })
   }
 
+  _deleteUser() {
+    console.log('delete the current user');
+    var id = this.state.currentUser._id
+    clientAuth.deleteUser(id).then((res) => {
+      this.setState({
+        currentUser: null,
+        loggedIn: false,
+        view: 'home',
+        bookmarks: [],
+        isModalOpen: false
+      })
+    })
+
+  }
+
   _logOut() {
     clientAuth.logOut().then(message => {
       console.log(message)
@@ -463,7 +478,7 @@ class App extends Component {
       navButtons = (
         <div style={{textAlign: 'center'}}>
           <Button
-            label='View Profile'
+            label='My Profile'
             name='profile'
             className='btn-link'
             onClick={this.openModal.bind(this)}
@@ -504,7 +519,9 @@ class App extends Component {
     } else if (this.state.currentModal === "login") {
       modalElement = <LogIn onLogin={this._logIn.bind(this)} />
     } else if (this.state.currentModal === "profile") {
-      modalElement = <Profile currentUser={this.state.currentUser} />
+      modalElement = <Profile
+        onDeleteUser={this._deleteUser.bind(this)}
+        currentUser={this.state.currentUser} />
     }
 
     const customModalStyles = {

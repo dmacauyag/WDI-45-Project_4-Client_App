@@ -60,6 +60,13 @@ const clientAuth = {
     })
   },
 
+  deleteUser: (id) => {
+    return axios({
+      url: `/api/users/${id}`,
+      method: 'delete'
+    })
+  },
+
   getBookmarks: () => {
     return axios({
       url: '/api/segments',

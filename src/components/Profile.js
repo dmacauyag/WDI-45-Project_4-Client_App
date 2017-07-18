@@ -11,7 +11,8 @@ class Profile extends Component {
       name: "",
       username: "",
       email: "",
-      password: ""
+      password: "",
+      location: ""
     }
   }
 
@@ -22,7 +23,8 @@ class Profile extends Component {
       editingProfile: true,
       name: this.props.currentUser.name,
       username: this.props.currentUser.username,
-      email: this.props.currentUser.email
+      email: this.props.currentUser.email,
+      location: this.props.currentUser.location
     })
   }
 
@@ -40,6 +42,10 @@ class Profile extends Component {
       this.setState({
         email : evt.target.value
       })
+    } else if (evt.target.name === "location") {
+      this.setState({
+        location: evt.target.value
+      })
     }
   }
 
@@ -48,7 +54,8 @@ class Profile extends Component {
     var updatedUserData = {
       name: this.state.name,
       username: this.state.username,
-      email: this.state.email 
+      email: this.state.email,
+      location: this.state.location
     }
     this.props.onEditUser(updatedUserData)
     this.setState({
@@ -90,6 +97,12 @@ class Profile extends Component {
               value={this.state.email}
               required="true"
               onChange={this._handleInputChange.bind(this)}/>
+              <label>Location:</label>
+              <input
+                type="text"
+                name="location"
+                value={this.state.location}
+                onChange={this._handleInputChange.bind(this)}/>
           </form>
         </div>
       )
@@ -97,7 +110,7 @@ class Profile extends Component {
         <div className='profile-info-container'>
           <p className="lead">Name: {this.props.currentUser.name}</p>
           <p className="lead">Email: {this.props.currentUser.email}</p>
-          <p className="lead">Location: </p>
+          <p className="lead">Location: {this.props.currentUser.location}</p>
         </div>
       )
 

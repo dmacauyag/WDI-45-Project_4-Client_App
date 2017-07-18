@@ -60,6 +60,14 @@ const clientAuth = {
     })
   },
 
+  updateUser: (id, data) => {
+    return axios({
+      url: `/api/users/${id}`,
+      method: 'patch',
+      data: data
+    })
+  },
+
   deleteUser: (id) => {
     return axios({
       url: `/api/users/${id}`,

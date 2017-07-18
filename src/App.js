@@ -121,6 +121,17 @@ class App extends Component {
     })
   }
 
+  _editUser(updatedUserData) {
+    console.log('update the current user info')
+    var id = this.state.currentUser._id
+    clientAuth.updateUser(id, updatedUserData).then((res) => {
+      console.log(res);
+      this.setState({
+        currentUser: res.data.user
+      })
+    })
+  }
+
   _deleteUser() {
     console.log('delete the current user');
     var id = this.state.currentUser._id
@@ -133,7 +144,6 @@ class App extends Component {
         isModalOpen: false
       })
     })
-
   }
 
   _logOut() {
@@ -520,6 +530,7 @@ class App extends Component {
       modalElement = <LogIn onLogin={this._logIn.bind(this)} />
     } else if (this.state.currentModal === "profile") {
       modalElement = <Profile
+        onEditUser={this._editUser.bind(this)}
         onDeleteUser={this._deleteUser.bind(this)}
         currentUser={this.state.currentUser} />
     }

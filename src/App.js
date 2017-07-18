@@ -504,7 +504,7 @@ class App extends Component {
     } else if (this.state.currentModal === "login") {
       modalElement = <LogIn onLogin={this._logIn.bind(this)} />
     } else if (this.state.currentModal === "profile") {
-      modalElement = <Profile />
+      modalElement = <Profile currentUser={this.state.currentUser} />
     }
 
     const customModalStyles = {

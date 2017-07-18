@@ -69,3 +69,7 @@ footer.space--sm, section.space--sm {
   text-align: center;
   width: 35em;
 }
+
+.profile-container {
+  text-align: center; 
+}

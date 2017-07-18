@@ -5,6 +5,7 @@ import './App.css'
 import clientAuth from './clientAuth'
 import SignUp from './components/SignUp'
 import LogIn from './components/LogIn'
+import Profile from './components/Profile'
 import Sidebar from './components/Sidebar'
 import Footer from './components/Footer'
 import Button from './components/Button'
@@ -12,10 +13,10 @@ import Map from './components/Map.js'
 //////////////////////////////////////////////////////////////
 const mql = window.matchMedia(`(min-width: 800px)`)
 // use the serverUrl below for the deployed version
-const serverUrl = 'https://warm-lowlands-86926.herokuapp.com'
+// const serverUrl = 'https://warm-lowlands-86926.herokuapp.com'
 
 // use the serverUrl below to localhost:3001 for local testing
-// const serverUrl = 'http://localhost:3001'
+const serverUrl = 'http://localhost:3001'
 //////////////////////////////////////////////////////////////
 axios.defaults.baseURL = serverUrl
 //////////////////////////////////////////////////////////////
@@ -462,8 +463,15 @@ class App extends Component {
       navButtons = (
         <div style={{textAlign: 'center'}}>
           <Button
+            label='View Profile'
+            name='profile'
+            className='btn-link'
+            onClick={this.openModal.bind(this)}
+          />
+          <span className='	glyphicon glyphicon-option-vertical'></span>
+          <Button
             label='Log Out'
-            name='login'
+            name='logout'
             className='btn-link'
             onClick={this._logOut.bind(this)}
           />
@@ -495,6 +503,8 @@ class App extends Component {
       modalElement = <SignUp onSignup={this._signUp.bind(this)} />
     } else if (this.state.currentModal === "login") {
       modalElement = <LogIn onLogin={this._logIn.bind(this)} />
+    } else if (this.state.currentModal === "profile") {
+      modalElement = <Profile />
     }
 
     const customModalStyles = {

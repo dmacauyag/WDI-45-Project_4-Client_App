@@ -68,16 +68,14 @@ class App extends Component {
       })
     })
 
-    // if (currentUser) {
-    //   console.log('test lat and lng', currentUser.locationLat);
-    //   this.setState({
-    //     mapCenter: {
-    //       lat: currentUser.locationLat,
-    //       lng: currentUser.locationLng
-    //     }
-    //   })
-    // }
-    if (navigator && navigator.geolocation) {
+    if (currentUser) {
+      this.setState({
+        mapCenter: {
+          lat: currentUser.locationLat,
+          lng: currentUser.locationLng
+        }
+      })
+    } else if (navigator && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((pos) => {
         const coords = pos.coords
         console.log('user coords', coords)

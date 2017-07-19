@@ -48,7 +48,7 @@ class App extends Component {
         lng: -122.479534
       },
       bounds: null,
-      currentUser: null,
+      currentUser: '',
       loggedIn: false,
       view: 'home',
       isModalOpen: false,
@@ -59,7 +59,23 @@ class App extends Component {
   }
 
   componentDidMount() {
-    if (navigator && navigator.geolocation) {
+    const currentUser = clientAuth.getCurrentUser()
+    clientAuth.getBookmarks().then(res => {
+      this.setState({
+        currentUser: currentUser,
+        loggedIn: !!currentUser,
+        bookmarks: res.data || []
+      })
+    })
+
+    if (currentUser) {
+      this.setState({
+        mapCenter: {
+          lat: currentUser.locationLat,
+          lng: currentUser.locationLng
+        }
+      })
+    } else if (navigator && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((pos) => {
         const coords = pos.coords
         console.log('user coords', coords)
@@ -71,15 +87,6 @@ class App extends Component {
         })
       })
     }
-
-    const currentUser = clientAuth.getCurrentUser()
-    clientAuth.getBookmarks().then(res => {
-      this.setState({
-        currentUser: currentUser,
-        loggedIn: !!currentUser,
-        bookmarks: res.data || []
-      })
-    })
   }
 //////////////////////////////////////////////////////////////
   openModal(evt) {
@@ -125,9 +132,9 @@ class App extends Component {
     console.log('update the current user info')
     var id = this.state.currentUser._id
     clientAuth.updateUser(id, updatedUserData).then((res) => {
-      console.log(res);
+      const currentUser = clientAuth.getCurrentUser()
       this.setState({
-        currentUser: res.data.user
+        currentUser: currentUser
       })
     })
   }
@@ -199,7 +206,6 @@ class App extends Component {
   }
 //////////////////////////////////////////////////////////////
   _mapLoaded(map) {
-    console.log('_mapLoaded')
     if (this.state.map != null)
       return
     this.setState({
@@ -532,7 +538,8 @@ class App extends Component {
       modalElement = <Profile
         onEditUser={this._editUser.bind(this)}
         onDeleteUser={this._deleteUser.bind(this)}
-        currentUser={this.state.currentUser} />
+        currentUser={this.state.currentUser}
+        mapState={this.state.map} />
     }
 
     const customModalStyles = {

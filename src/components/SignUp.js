@@ -7,8 +7,9 @@ class SignUp extends Component {
       name: this.refs.name.value,
       username: this.refs.username.value,
       email: this.refs.email.value,
-      location: this.refs.location.value,
-      password: this.refs.password.value
+      password: this.refs.password.value,
+      locationLat: 37.79405501828577,
+      locationLng: -122.26871044072264
     }
     this.props.onSignup(newUser)
   }
@@ -21,7 +22,6 @@ class SignUp extends Component {
           <input type='text' placeholder='Name' ref='name' required='true' />
           <input type='text' placeholder='Username' ref='username' required='true' />
           <input type='text' placeholder='Email' ref='email' required='true' />
-          <input type='text' placeholder='Location' ref='location' />
           <input type='password' placeholder='Password' ref='password' required='true' />
           <button type='submit'>Create Account</button>
         </form>

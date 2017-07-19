@@ -12,7 +12,8 @@ class Profile extends Component {
       username: "",
       email: "",
       password: "",
-      location: ""
+      locationLat: "",
+      locationLng: ""
     }
   }
 
@@ -24,7 +25,8 @@ class Profile extends Component {
       name: this.props.currentUser.name,
       username: this.props.currentUser.username,
       email: this.props.currentUser.email,
-      location: this.props.currentUser.location
+      locationLat: this.props.currentUser.locationLat,
+      locationLng: this.props.currentUser.locationLng
     })
   }
 
@@ -42,11 +44,14 @@ class Profile extends Component {
       this.setState({
         email : evt.target.value
       })
-    } else if (evt.target.name === "location") {
-      this.setState({
-        location: evt.target.value
-      })
     }
+  }
+
+  _setDefaultLocation(evt) {
+    this.setState({
+      locationLat: this.props.mapState.state.map.center.lat(),
+      locationLng: this.props.mapState.state.map.center.lng()
+    })
   }
 
   _finishEditProfile(evt) {
@@ -55,8 +60,10 @@ class Profile extends Component {
       name: this.state.name,
       username: this.state.username,
       email: this.state.email,
-      location: this.state.location
+      locationLat: this.state.locationLat,
+      locationLng: this.state.locationLng
     }
+    console.log(updatedUserData);
     this.props.onEditUser(updatedUserData)
     this.setState({
       editingProfile: false
@@ -97,20 +104,18 @@ class Profile extends Component {
               value={this.state.email}
               required="true"
               onChange={this._handleInputChange.bind(this)}/>
-              <label>Location:</label>
-              <input
-                type="text"
-                name="location"
-                value={this.state.location}
-                onChange={this._handleInputChange.bind(this)}/>
           </form>
+          <Button
+            label='Set the current map as the default location.'
+            className='btn-link'
+            onClick={this._setDefaultLocation.bind(this)}
+          />
         </div>
       )
       : (
         <div className='profile-info-container'>
           <p className="lead">Name: {this.props.currentUser.name}</p>
           <p className="lead">Email: {this.props.currentUser.email}</p>
-          <p className="lead">Location: {this.props.currentUser.location}</p>
         </div>
       )
 

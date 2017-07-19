@@ -66,12 +66,28 @@ const clientAuth = {
       method: 'patch',
       data: data
     })
+    .then(res => {
+      if(res.data.token) {
+        localStorage.clear()
+        delete axios.defaults.headers.common['x-access-token']
+
+        localStorage.setItem('token', res.data.token)
+        axios.defaults.headers.common['x-access-token'] = localStorage.getItem('token')
+        return jwt_decode(res.data.token)
+      } else {
+        return false
+      }
+    })
   },
 
   deleteUser: (id) => {
     return axios({
       url: `/api/users/${id}`,
       method: 'delete'
+    })
+    .then((res) => {
+      localStorage.clear()
+      delete axios.defaults.headers.common['x-access-token']
     })
   },
 

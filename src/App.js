@@ -13,10 +13,10 @@ import Map from './components/Map.js'
 //////////////////////////////////////////////////////////////
 const mql = window.matchMedia(`(min-width: 800px)`)
 // use the serverUrl below for the deployed version
-// const serverUrl = 'https://warm-lowlands-86926.herokuapp.com'
+const serverUrl = 'https://warm-lowlands-86926.herokuapp.com'
 
 // use the serverUrl below to localhost:3001 for local testing
-const serverUrl = 'http://localhost:3001'
+// const serverUrl = 'http://localhost:3001'
 //////////////////////////////////////////////////////////////
 axios.defaults.baseURL = serverUrl
 //////////////////////////////////////////////////////////////

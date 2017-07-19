@@ -68,7 +68,7 @@ class App extends Component {
       })
     })
 
-    if (currentUser) {
+    if (currentUser.locationLat && currentUser.locationLng) {
       this.setState({
         mapCenter: {
           lat: currentUser.locationLat,
